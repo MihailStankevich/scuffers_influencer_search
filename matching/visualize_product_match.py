@@ -22,10 +22,10 @@ from ingest.paths import DATA_INFLUENCERS_DIR
 from matching.match_product import (
     _encode_product,
     _load_profiles,
+    get_clip_model,
     run_match,
 )
 
-import open_clip
 import torch
 
 
@@ -38,8 +38,8 @@ OUT_SIM_PLOT = DATA_INFLUENCERS_DIR / "visualizations" / "product_match_top10_si
 
 def _get_model_config() -> tuple[str, str]:
     idx = json.loads(STYLE_INDEX.read_text(encoding="utf-8"))
-    model_name = idx.get("model_name", "ViT-B-32")
-    pretrained = idx.get("pretrained", "laion2b_s34b_b79k")
+    model_name = idx.get("model_name", "ViT-H-14")
+    pretrained = idx.get("pretrained", "laion2b_s32b_b79k")
     return str(model_name), str(pretrained)
 
 
@@ -248,6 +248,8 @@ def run(
     w_engagement: float,
     w_topic: float,
     device: str,
+    pooling_mode: str = "topk_mean",
+    image_top_k: int = 2,
     country_mandatory: bool = False,
     city_mandatory: bool = False,
     min_style_for_business: float = 0.60,
@@ -268,6 +270,8 @@ def run(
         w_engagement=w_engagement,
         w_topic=w_topic,
         device=device,
+        pooling_mode=pooling_mode,
+        image_top_k=image_top_k,
         country_mandatory=country_mandatory,
         city_mandatory=city_mandatory,
         min_style_for_business=min_style_for_business,
@@ -275,14 +279,9 @@ def run(
     top_usernames = [r["username"] for r in ranking["top_k"]]
     top_set = set(top_usernames)
 
-    # Encode product with same CLIP config used for style profiles
+    # Encode product with same CLIP config (reuse cached model from run_match when possible)
     model_name, pretrained = _get_model_config()
-    model, _, preprocess = open_clip.create_model_and_transforms(
-        model_name=model_name,
-        pretrained=pretrained,
-        device=device,
-    )
-    model.eval()
+    model, preprocess = get_clip_model(model_name, pretrained, device)
     prod_vec = _l2_normalize(_encode_product(image_path, model, preprocess, device))
 
     labels = [p["username"] for p in profiles]
@@ -357,6 +356,12 @@ def main() -> int:
         default="cuda" if torch.cuda.is_available() else "cpu",
         choices=["cpu", "cuda"],
     )
+    p.add_argument(
+        "--pooling-mode",
+        default="topk_mean",
+        choices=["centroid", "max", "topk_mean"],
+    )
+    p.add_argument("--image-top-k", type=int, default=2)
     args = p.parse_args()
     if not args.image.is_file():
         raise SystemExit(f"Image not found: {args.image}")
@@ -372,6 +377,8 @@ def main() -> int:
         w_engagement=args.w_engagement,
         w_topic=args.w_topic,
         device=args.device,
+        pooling_mode=args.pooling_mode,
+        image_top_k=max(1, args.image_top_k),
     )
     return 0
 

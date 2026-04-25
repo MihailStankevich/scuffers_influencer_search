@@ -1,5 +1,5 @@
 """
-Compute CLIP embeddings for influencer images and build one style centroid per influencer.
+Compute CLIP embeddings for influencer images and build style profiles per influencer.
 
 Inputs:
   - data/influencers/<username>/images/*
@@ -86,12 +86,20 @@ def run(model_name: str, pretrained: str, device: str) -> None:
 
         vectors: list[np.ndarray] = []
         used_images: list[str] = []
+        image_embeddings: list[dict[str, Any]] = []
         for img in images:
             vec = _encode_image(img, model, preprocess, device)
             if vec is None:
                 continue
+            rel = str(img.relative_to(DATA_INFLUENCERS_DIR)).replace("\\", "/")
             vectors.append(vec)
-            used_images.append(str(img.relative_to(DATA_INFLUENCERS_DIR)).replace("\\", "/"))
+            used_images.append(rel)
+            image_embeddings.append(
+                {
+                    "path": rel,
+                    "embedding": vec.tolist(),  # already L2-normalized
+                }
+            )
 
         if not vectors:
             skipped_users.append(username)
@@ -106,7 +114,8 @@ def run(model_name: str, pretrained: str, device: str) -> None:
             "embedding_dim": int(centroid.shape[0]),
             "image_count": len(vectors),
             "images": used_images,
-            "centroid": centroid.tolist(),
+            "centroid": centroid.tolist(),  # normalized centroid
+            "image_embeddings": image_embeddings,
         }
         out = DATA_INFLUENCERS_DIR / username / "style_profile.json"
         out.write_text(json.dumps(profile, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -137,10 +146,10 @@ def run(model_name: str, pretrained: str, device: str) -> None:
 
 def main() -> int:
     p = argparse.ArgumentParser(description="Build CLIP style profiles per influencer")
-    p.add_argument("--model", default="ViT-B-32", help="open_clip model name")
+    p.add_argument("--model", default="ViT-H-14", help="open_clip model name")
     p.add_argument(
         "--pretrained",
-        default="laion2b_s34b_b79k",
+        default="laion2b_s32b_b79k",
         help="open_clip pretrained checkpoint name",
     )
     p.add_argument(
