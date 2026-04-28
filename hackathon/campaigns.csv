@@ -1,0 +1,6 @@
+campaign_id,campaign_source,status,target_sku,target_city,campaign_intensity,budget_spent,traffic_growth,conversion_rate,started_at
+CMP-778,tiktok,active,HOODIE-BLK-M,Madrid,very_high,4200,3.8,0.074,2026-04-28T16:00:00Z
+CMP-779,tiktok,active,TEE-WHT-S,Barcelona,high,3100,3.1,0.068,2026-04-28T16:20:00Z
+CMP-780,instagram,active,ZIP-BLK-M,Madrid,high,2600,2.5,0.061,2026-04-28T15:45:00Z
+CMP-781,email,active,KNIT-NVY-M,ES,medium,800,1.2,0.043,2026-04-28T17:00:00Z
+CMP-782,organic,monitoring,CAP-BLK-OS,Valencia,medium,0,1.9,0.038,2026-04-28T16:45:00Z

@@ -1,0 +1,23 @@
+sku,product_name,category,size,unit_price,warehouse_stock,inventory_available_units,inventory_reserved_units,inventory_incoming_units,inventory_incoming_eta,sell_through_rate_last_hour,product_page_views_last_hour,conversion_rate_last_hour
+HOODIE-BLK-S,Black Hoodie,hoodie,S,69.9,23,15,8,0,,0.28,2511,0.034
+HOODIE-BLK-M,Black Hoodie,hoodie,M,69.9,34,2,32,0,,0.825,4573,0.076
+HOODIE-BLK-L,Black Hoodie,hoodie,L,69.9,44,31,13,0,,0.303,1982,0.044
+HOODIE-CRM-M,Cream Hoodie,hoodie,M,72.9,50,18,32,30,2026-04-29T21:00:00Z,0.495,3556,0.054
+HOODIE-CRM-L,Cream Hoodie,hoodie,L,72.9,38,27,11,20,2026-04-29T20:00:00Z,0.182,1643,0.026
+TEE-WHT-S,White Essential Tee,tshirt,S,34.9,42,2,40,30,2026-04-30T03:00:00Z,0.862,4846,0.071
+TEE-WHT-M,White Essential Tee,tshirt,M,34.9,40,38,2,0,,0.39,2180,0.037
+TEE-BLK-M,Black Essential Tee,tshirt,M,34.9,49,44,5,20,2026-04-30T02:00:00Z,0.276,2024,0.043
+TEE-BLK-L,Black Essential Tee,tshirt,L,34.9,24,19,5,40,2026-04-29T19:00:00Z,0.285,2214,0.038
+JORTS-BLU-M,Blue Denim Jorts,pants,M,59.9,41,16,25,0,,0.607,3257,0.068
+JORTS-BLU-L,Blue Denim Jorts,pants,L,59.9,27,21,6,40,2026-04-30T00:00:00Z,0.194,1892,0.033
+CAP-BLK-OS,Black Cap,accessory,OS,29.9,45,31,14,30,2026-04-29T12:00:00Z,0.559,3574,0.06
+SOCKS-WHT-OS,White Socks Pack,accessory,OS,14.9,59,47,12,20,2026-04-29T18:00:00Z,0.441,2067,0.043
+BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,39.9,25,22,3,0,,0.152,1589,0.026
+SWEAT-GRY-M,Grey Sweatpants,pants,M,64.9,73,59,14,40,2026-04-29T20:00:00Z,0.198,861,0.029
+SWEAT-GRY-L,Grey Sweatpants,pants,L,64.9,83,75,8,40,2026-04-30T01:00:00Z,0.078,1375,0.022
+ZIP-BLK-M,Black Zip Hoodie,hoodie,M,79.9,43,6,37,0,,0.751,3783,0.076
+ZIP-BLK-L,Black Zip Hoodie,hoodie,L,79.9,72,66,6,0,,0.184,1385,0.032
+TEE-RED-M,Red Logo Tee,tshirt,M,36.9,54,54,0,40,2026-04-30T00:00:00Z,0.371,2090,0.05
+TEE-RED-L,Red Logo Tee,tshirt,L,36.9,41,34,7,0,,0.366,2713,0.053
+KNIT-NVY-M,Navy Knit Sweater,knitwear,M,89.9,73,71,2,40,2026-04-29T12:00:00Z,0.071,1370,0.033
+KNIT-NVY-L,Navy Knit Sweater,knitwear,L,89.9,86,73,13,0,,0.226,1783,0.032

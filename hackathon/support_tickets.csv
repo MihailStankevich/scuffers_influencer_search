@@ -1,0 +1,19 @@
+ticket_id,order_id,customer_id,created_at,channel,support_ticket_message,support_ticket_urgency,support_ticket_sentiment
+TCK-5501,ORD-10404,CUS-2057,2026-04-28T16:25:19Z,instagram_dm,Necesito saber si mi pedido llegará antes del viernes.,high,neutral
+TCK-5502,ORD-10417,CUS-2070,2026-04-28T17:59:30Z,email,No veo movimiento en el envío desde hace horas.,high,neutral
+TCK-5503,ORD-10428,CUS-2076,2026-04-28T18:35:21Z,chat,"He pagado express, necesito prioridad por favor.",medium,neutral
+TCK-5504,ORD-10452,CUS-2069,2026-04-28T16:31:59Z,email,Me preocupa que se agote y no recibirme el pedido.,high,negative
+TCK-5505,ORD-10460,CUS-2033,2026-04-28T17:10:10Z,instagram_dm,Me preocupa que se agote y no recibirme el pedido.,high,negative
+TCK-5506,ORD-10496,CUS-2111,2026-04-28T17:12:49Z,chat,Necesito saber si mi pedido llegará antes del viernes.,medium,neutral
+TCK-5507,ORD-10508,CUS-2012,2026-04-28T17:54:16Z,instagram_dm,Quiero cambiar la dirección antes de que salga.,medium,neutral
+TCK-5508,ORD-10509,CUS-2017,2026-04-28T17:11:37Z,email,"He pagado express, necesito prioridad por favor.",low,negative
+TCK-5509,ORD-10515,CUS-2068,2026-04-28T17:02:45Z,instagram_dm,Es un regalo y necesito confirmación de entrega.,high,neutral
+TCK-5510,ORD-10517,CUS-2049,2026-04-28T18:02:36Z,instagram_dm,Me preocupa que se agote y no recibirme el pedido.,urgent,neutral
+TCK-5511,ORD-10523,CUS-2115,2026-04-28T18:26:24Z,chat,No veo movimiento en el envío desde hace horas.,medium,neutral
+TCK-5512,ORD-10530,CUS-2066,2026-04-28T17:51:54Z,email,Es un regalo y necesito confirmación de entrega.,low,negative
+TCK-5513,ORD-10552,CUS-2062,2026-04-28T18:19:57Z,email,Quiero cambiar la dirección antes de que salga.,high,negative
+TCK-5514,ORD-10553,CUS-2052,2026-04-28T16:18:54Z,email,"He pagado express, necesito prioridad por favor.",medium,negative
+TCK-5515,ORD-10556,CUS-2025,2026-04-28T17:26:45Z,chat,Necesito saber si mi pedido llegará antes del viernes.,high,neutral
+TCK-5516,ORD-10567,CUS-2004,2026-04-28T18:10:31Z,instagram_dm,Es un regalo y necesito confirmación de entrega.,urgent,negative
+TCK-5517,ORD-10568,CUS-2083,2026-04-28T17:45:21Z,instagram_dm,Me preocupa que se agote y no recibirme el pedido.,high,neutral
+TCK-5518,ORD-10578,CUS-2095,2026-04-28T17:23:04Z,chat,No veo movimiento en el envío desde hace horas.,urgent,neutral

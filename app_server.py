@@ -35,6 +35,7 @@ VIS_DIR = DATA_INFLUENCERS_DIR / "visualizations"
 UPLOAD_DIR = VIS_DIR / "uploads"
 RUNS_DIR = VIS_DIR / "runs"
 TOP_K_FIXED = 3
+CLUSTERS_PLOT = VIS_DIR / "style_clusters_2d.png"
 
 
 def _mode_weights(mode: str) -> tuple[float, float, float, float]:
@@ -50,6 +51,24 @@ def _parse_keywords(raw: str | None) -> list[str]:
     if not raw:
         return []
     return [k.strip() for k in raw.split(",") if k.strip()]
+
+
+def _country_options() -> list[str]:
+    if not INFLUENCERS_GEO_JSON.is_file():
+        return ["Any"]
+    try:
+        geo = json.loads(INFLUENCERS_GEO_JSON.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return ["Any"]
+    if not isinstance(geo, dict):
+        return ["Any"]
+    countries = {
+        str((v or {}).get("country") or "").strip()
+        for v in geo.values()
+        if isinstance(v, dict)
+    }
+    clean = sorted(c for c in countries if c)
+    return ["Any"] + clean
 
 
 def _representative_image_for_username(username: str) -> str | None:
@@ -324,35 +343,28 @@ async def visualize_endpoint(
 def _gradio_infer(
     image_path: str,
     rank_mode: str,
-    city: str,
     country: str,
-    city_mandatory: bool,
     country_mandatory: bool,
-    keywords: str,
-    w_style: float,
-    w_geo: float,
-    w_engagement: float,
-    w_topic: float,
-) -> tuple[str, str | None, str | None, list[tuple[str, str]]]:
+) -> tuple[str, str | None, list[tuple[str, str]]]:
     if not image_path:
-        return "Upload an image first.", None, None, []
+        return "Upload an image first.", None, []
 
-    mode = "style-only" if rank_mode == "Style only" else "business"
+    mode = "style-only" if rank_mode in {"Style", "Style only"} else "business"
     w_style, w_geo, w_engagement, w_topic = _mode_weights(mode)
 
     run_visualize(
         image_path=Path(image_path),
         top_k=TOP_K_FIXED,
-        country=country or None,
-        city=city or None,
-        keywords=_parse_keywords(keywords),
+        country=None if country == "Any" else (country or None),
+        city=None,
+        keywords=[],
         w_style=w_style,
         w_geo=w_geo,
         w_engagement=w_engagement,
         w_topic=w_topic,
         device="cpu",
         country_mandatory=bool(country_mandatory),
-        city_mandatory=bool(city_mandatory),
+        city_mandatory=False,
         min_style_for_business=0.60,
     )
     ranking_path = OUT_PLOT.with_suffix(".json")
@@ -361,72 +373,74 @@ def _gradio_infer(
         ranking = json.loads(ranking_path.read_text(encoding="utf-8"))
     ranking["rank_mode"] = rank_mode
     ranking["top_k_fixed"] = TOP_K_FIXED
-    summary = json.dumps(ranking, ensure_ascii=False, indent=2)
     gallery = _top_gallery_from_ranking(ranking)
-    return summary, str(OUT_PLOT_3D), str(OUT_SIM_PLOT), gallery
+    top_users = [f"@{r.get('username')}" for r in ranking.get("top_k", [])[:TOP_K_FIXED]]
+    summary = f"Mode: {rank_mode} | Top {TOP_K_FIXED}: {', '.join(top_users)}"
+    return summary, str(OUT_SIM_PLOT), gallery
 
 
-with gr.Blocks(title="Scuffers Creator Match AI") as demo:
+UI_CSS = """
+.gradio-container {max-width: 980px !important; margin: 0 auto !important;}
+.block-title h1, h1 {letter-spacing: -0.02em;}
+.compact-note {color: #6b7280; font-size: 0.95rem; margin-top: -6px;}
+.section-title {font-size: 0.95rem; font-weight: 600; margin-top: 8px;}
+"""
+
+
+with gr.Blocks(title="Scuffers Creator Match AI", css=UI_CSS) as demo:
     gr.Markdown(
         "## Scuffers Creator Match AI\n"
-        "Upload product image and get top influencer matches.\n\n"
-        f"**Ranking mode**: Style only (pure visual) / Business rank (visual + business signals).\n"
-        f"Top-K is fixed to **{TOP_K_FIXED}** for consistent demo output."
+        "Scuffers es una comunidad con estetica propia. Gastar solo en influencers grandes suele subir CAC; "
+        "colaborar con creadores visualmente alineados puede rendir mejor. "
+        "Si quieres crecer en un pais concreto, puedes filtrar por mercado."
     )
-    with gr.Row():
+    with gr.Row(equal_height=True):
         rank_mode = gr.Radio(
-            ["Style only", "Business rank"],
-            value="Business rank",
-            label="Ranking mode",
-            info="Style only = pure visual similarity. Business rank = visual + geo + engagement + topic.",
+            ["Business", "Style only"],
+            value="Business",
+            label="Mode",
+            info="Business usa estilo + senales de negocio. Style only usa solo similitud visual.",
         )
-        city = gr.Textbox(label="City (optional)")
-        country = gr.Textbox(label="Country (optional)")
+        country = gr.Dropdown(
+            choices=_country_options(),
+            value="Any",
+            label="Country",
+            info="Filtra por pais objetivo.",
+        )
+        country_mandatory = gr.Checkbox(
+            value=False,
+            label="Country mandatory",
+            info="Si activas, solo devuelve creadores de ese pais.",
+        )
     with gr.Row():
-        city_mandatory = gr.Checkbox(value=True, label="City mandatory filter")
-        country_mandatory = gr.Checkbox(value=True, label="Country mandatory filter")
-    keywords = gr.Textbox(label="Keywords comma-separated", value="streetwear,oversized,hoodie")
+        in_image = gr.Image(type="filepath", label="Product image", height=210)
+    run_btn = gr.Button("Find Influencers", variant="primary")
+    out_status = gr.Markdown("Ready.")
     with gr.Row():
-        in_image = gr.Image(type="filepath", label="Product image", height=260)
-    # Hidden placeholders kept to preserve function signature and avoid UI clutter.
-    w_style = gr.State(0.70)
-    w_geo = gr.State(0.15)
-    w_engagement = gr.State(0.10)
-    w_topic = gr.State(0.05)
-    run_btn = gr.Button("Run Match + Visualize", variant="primary")
-    with gr.Tabs():
-        with gr.Tab("3D Space"):
-            out_global_3d = gr.Image(label="Global PCA 3D", height=360)
-        with gr.Tab("Top-K Similarity"):
-            out_sim = gr.Image(label="Top-K cosine similarity", height=300)
-        with gr.Tab("Top Influencers"):
-            out_gallery = gr.Gallery(
-                label="Top influencer matches (username + representative photo)",
-                columns=3,
-                rows=1,
-                height=260,
-                object_fit="contain",
-                preview=True,
-            )
-    with gr.Accordion("Ranking JSON (debug)", open=False):
-        out_json = gr.Code(label="Ranking JSON", language="json", lines=12)
+        out_sim = gr.Image(label="Top-3 style similarity", height=230)
+        out_gallery = gr.Gallery(
+            label="Top 3 influencer matches",
+            columns=3,
+            rows=1,
+            height=170,
+            object_fit="contain",
+            preview=True,
+        )
+    out_clusters = gr.Image(
+        value=str(CLUSTERS_PLOT) if CLUSTERS_PLOT.is_file() else None,
+        label="Influencer style clusters (2D)",
+        height=270,
+    )
 
     run_btn.click(
         _gradio_infer,
         inputs=[
             in_image,
             rank_mode,
-            city,
             country,
-            city_mandatory,
             country_mandatory,
-            keywords,
-            w_style,
-            w_geo,
-            w_engagement,
-            w_topic,
         ],
-        outputs=[out_json, out_global_3d, out_sim, out_gallery],
+        outputs=[out_status, out_sim, out_gallery],
     )
 
 

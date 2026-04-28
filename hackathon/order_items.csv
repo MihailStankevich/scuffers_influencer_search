@@ -1,0 +1,181 @@
+order_id,sku,product_name,category,size,quantity,unit_price
+ORD-10401,JORTS-BLU-M,Blue Denim Jorts,pants,M,1,59.9
+ORD-10402,SOCKS-WHT-OS,White Socks Pack,accessory,OS,1,14.9
+ORD-10403,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10404,SOCKS-WHT-OS,White Socks Pack,accessory,OS,1,14.9
+ORD-10405,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10406,TEE-WHT-M,White Essential Tee,tshirt,M,1,34.9
+ORD-10407,HOODIE-BLK-M,Black Hoodie,hoodie,M,1,69.9
+ORD-10408,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,1,39.9
+ORD-10409,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10410,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10411,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,2,79.9
+ORD-10412,JORTS-BLU-M,Blue Denim Jorts,pants,M,2,59.9
+ORD-10413,TEE-RED-L,Red Logo Tee,tshirt,L,2,36.9
+ORD-10414,ZIP-BLK-L,Black Zip Hoodie,hoodie,L,1,79.9
+ORD-10415,JORTS-BLU-L,Blue Denim Jorts,pants,L,1,59.9
+ORD-10416,TEE-RED-M,Red Logo Tee,tshirt,M,1,36.9
+ORD-10417,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10418,TEE-WHT-M,White Essential Tee,tshirt,M,1,34.9
+ORD-10419,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10420,SWEAT-GRY-M,Grey Sweatpants,pants,M,1,64.9
+ORD-10421,ZIP-BLK-L,Black Zip Hoodie,hoodie,L,1,79.9
+ORD-10422,HOODIE-BLK-L,Black Hoodie,hoodie,L,1,69.9
+ORD-10423,TEE-RED-L,Red Logo Tee,tshirt,L,1,36.9
+ORD-10424,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10425,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10426,JORTS-BLU-M,Blue Denim Jorts,pants,M,1,59.9
+ORD-10427,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10428,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10429,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10430,HOODIE-BLK-L,Black Hoodie,hoodie,L,1,69.9
+ORD-10431,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10432,hoodie_blk_m,Black Hoodie,hoodie,M,1,69.9
+ORD-10433,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10434,HOODIE-BLK-M,Black Hoodie,hoodie,M,1,69.9
+ORD-10435,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10436,JORTS-BLU-L,Blue Denim Jorts,pants,L,1,59.9
+ORD-10437,JORTS-BLU-M,Blue Denim Jorts,pants,M,1,59.9
+ORD-10438,JORTS-BLU-L,Blue Denim Jorts,pants,L,1,59.9
+ORD-10439,HOODIE-CRM-M,Cream Hoodie,hoodie,M,1,72.9
+ORD-10440,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10441,HOODIE-CRM-L,Cream Hoodie,hoodie,L,1,72.9
+ORD-10442,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10443,SWEAT-GRY-L,Grey Sweatpants,pants,L,2,64.9
+ORD-10444,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10445,TEE-BLK-M,Black Essential Tee,tshirt,M,1,34.9
+ORD-10446,HOODIE-CRM-L,Cream Hoodie,hoodie,L,1,72.9
+ORD-10447,JORTS-BLU-M,Blue Denim Jorts,pants,M,1,59.9
+ORD-10448,TEE-RED-L,Red Logo Tee,tshirt,L,1,36.9
+ORD-10449,HOODIE-BLK-M,Black Hoodie,hoodie,M,1,69.9
+ORD-10450,KNIT-NVY-L,Navy Knit Sweater,knitwear,L,2,89.9
+ORD-10451,HOODIE-BLK-M,Black Hoodie,hoodie,M,2,69.9
+ORD-10452,TEE-BLK-M,Black Essential Tee,tshirt,M,1,34.9
+ORD-10453,HOODIE-CRM-L,Cream Hoodie,hoodie,L,1,72.9
+ORD-10454,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10455,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10456,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10457,HOODIE-CRM-M,Cream Hoodie,hoodie,M,2,72.9
+ORD-10458,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10459,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10460,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10461,SWEAT-GRY-M,Grey Sweatpants,pants,M,1,64.9
+ORD-10462,KNIT-NVY-L,Navy Knit Sweater,knitwear,L,1,89.9
+ORD-10463,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10464,SOCKS-WHT-OS,White Socks Pack,accessory,OS,1,14.9
+ORD-10465,JORTS-BLU-L,Blue Denim Jorts,pants,L,1,59.9
+ORD-10466,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10467,KNIT-NVY-L,Navy Knit Sweater,knitwear,L,1,89.9
+ORD-10468,SWEAT-GRY-M,Grey Sweatpants,pants,M,1,64.9
+ORD-10469,HOODIE-BLK-S,Black Hoodie,hoodie,S,1,69.9
+ORD-10470,TEE-BLK-M,Black Essential Tee,tshirt,M,1,34.9
+ORD-10471,HOODIE-BLK-M,Black Hoodie,hoodie,M,1,69.9
+ORD-10472,TEE-WHT-S,White Essential Tee,tshirt,S,2,34.9
+ORD-10473,KNIT-NVY-L,Navy Knit Sweater,knitwear,L,1,89.9
+ORD-10474,HOODIE-CRM-L,Cream Hoodie,hoodie,L,1,72.9
+ORD-10475,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10476,SWEAT-GRY-L,Grey Sweatpants,pants,L,1,64.9
+ORD-10477,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10478,SWEAT-GRY-M,Grey Sweatpants,pants,M,1,64.9
+ORD-10479,HOODIE-CRM-M,Cream Hoodie,hoodie,M,1,72.9
+ORD-10480,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10481,HOODIE-BLK-L,Black Hoodie,hoodie,L,1,69.9
+ORD-10482,HOODIE-BLK-L,Black Hoodie,hoodie,L,1,69.9
+ORD-10483,ZIP-BLK-L,Black Zip Hoodie,hoodie,L,1,79.9
+ORD-10484,JORTS-BLU-L,Blue Denim Jorts,pants,L,3,59.9
+ORD-10485,ZIP-BLK-L,Black Zip Hoodie,hoodie,L,1,79.9
+ORD-10486,HOODIE-CRM-M,Cream Hoodie,hoodie,M,1,72.9
+ORD-10487,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,1,39.9
+ORD-10488,jorts_blu_m,Blue Denim Jorts,pants,M,1,59.9
+ORD-10489,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10490,JORTS-BLU-M,Blue Denim Jorts,pants,M,3,59.9
+ORD-10491,TEE-BLK-M,Black Essential Tee,tshirt,M,1,34.9
+ORD-10492,HOODIE-BLK-M,Black Hoodie,hoodie,M,2,69.9
+ORD-10493,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10494,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10495,TEE-BLK-M,Black Essential Tee,tshirt,M,1,34.9
+ORD-10496,ZIP-BLK-L,Black Zip Hoodie,hoodie,L,1,79.9
+ORD-10497,JORTS-BLU-L,Blue Denim Jorts,pants,L,1,59.9
+ORD-10498,HOODIE-CRM-L,Cream Hoodie,hoodie,L,2,72.9
+ORD-10499,TEE-WHT-M,White Essential Tee,tshirt,M,1,34.9
+ORD-10500,JORTS-BLU-M,Blue Denim Jorts,pants,M,1,59.9
+ORD-10501,TEE-RED-L,Red Logo Tee,tshirt,L,1,36.9
+ORD-10502,JORTS-BLU-M,Blue Denim Jorts,pants,M,2,59.9
+ORD-10503,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10504,TEE-WHT-M,White Essential Tee,tshirt,M,2,34.9
+ORD-10505,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10506,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,1,39.9
+ORD-10507,HOODIE-CRM-M,Cream Hoodie,hoodie,M,1,72.9
+ORD-10508,SWEAT-GRY-M,Grey Sweatpants,pants,M,2,64.9
+ORD-10509,HOODIE-CRM-M,Cream Hoodie,hoodie,M,1,72.9
+ORD-10510,CAP-BLK-OS,Black Cap,accessory,OS,2,29.9
+ORD-10511,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10512,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10513,HOODIE-BLK-M,Black Hoodie,hoodie,M,1,69.9
+ORD-10514,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10515,JORTS-BLU-M,Blue Denim Jorts,pants,M,1,59.9
+ORD-10516,KNIT-NVY-L,Navy Knit Sweater,knitwear,L,1,89.9
+ORD-10517,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10518,SWEAT-GRY-M,Grey Sweatpants,pants,M,1,64.9
+ORD-10519,TEE-BLK-L,Black Essential Tee,tshirt,L,2,34.9
+ORD-10520,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10521,HOODIE-BLK-M,Black Hoodie,hoodie,M,1,69.9
+ORD-10522,TEE-BLK-L,Black Essential Tee,tshirt,L,1,34.9
+ORD-10523,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,1,39.9
+ORD-10524,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10525,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10526,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10527,HOODIE-BLK-M,Black Hoodie,hoodie,M,1,69.9
+ORD-10528,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10529,HOODIE-CRM-L,Cream Hoodie,hoodie,L,1,72.9
+ORD-10530,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10531,TEE-RED-L,Red Logo Tee,tshirt,L,1,36.9
+ORD-10532,HOODIE-CRM-M,Cream Hoodie,hoodie,M,1,72.9
+ORD-10533,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10534,HOODIE-BLK-M,Black Hoodie,hoodie,M,1,69.9
+ORD-10535,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,2,39.9
+ORD-10536,TEE-WHT-S,White Essential Tee,tshirt,S,1,34.9
+ORD-10537,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,1,39.9
+ORD-10538,TEE-RED-M,Red Logo Tee,tshirt,M,1,36.9
+ORD-10539,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,1,39.9
+ORD-10540,TEE-WHT-S,White Essential Tee,tshirt,S,3,34.9
+ORD-10541,TEE-BLK-L,Black Essential Tee,tshirt,L,1,34.9
+ORD-10542,HOODIE-BLK-M,Black Hoodie,hoodie,M,1,69.9
+ORD-10543,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,2,89.9
+ORD-10544,KNIT-NVY-L,Navy Knit Sweater,knitwear,L,1,89.9
+ORD-10545,JORTS-BLU-L,Blue Denim Jorts,pants,L,1,59.9
+ORD-10546,SWEAT-GRY-M,Grey Sweatpants,pants,M,1,64.9
+ORD-10547,SWEAT-GRY-L,Grey Sweatpants,pants,L,2,64.9
+ORD-10548,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10549,KNIT-NVY-M,Navy Knit Sweater,knitwear,M,1,89.9
+ORD-10550,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10551,SWEAT-GRY-M,Grey Sweatpants,pants,M,1,64.9
+ORD-10552,TEE-WHT-M,White Essential Tee,tshirt,M,1,34.9
+ORD-10553,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10554,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,2,39.9
+ORD-10555,TEE-WHT-S,White Essential Tee,tshirt,S,2,34.9
+ORD-10556,HOODIE-BLK-M,Black Hoodie,hoodie,M,2,69.9
+ORD-10557,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10558,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10559,TEE-WHT-M,White Essential Tee,tshirt,M,1,34.9
+ORD-10560,ZIP-BLK-L,Black Zip Hoodie,hoodie,L,2,79.9
+ORD-10561,JORTS-BLU-L,Blue Denim Jorts,pants,L,1,59.9
+ORD-10562,KNIT-NVY-L,Navy Knit Sweater,knitwear,L,1,89.9
+ORD-10563,HOODIE-CRM-M,Cream Hoodie,hoodie,M,1,72.9
+ORD-10564,HOODIE-BLK-L,Black Hoodie,hoodie,L,1,69.9
+ORD-10565,JORTS-BLU-M,Blue Denim Jorts,pants,M,1,59.9
+ORD-10566,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,1,39.9
+ORD-10567,TEE-RED-L,Red Logo Tee,tshirt,L,2,36.9
+ORD-10568,ZIP-BLK-M,Black Zip Hoodie,hoodie,M,1,79.9
+ORD-10569,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,1,39.9
+ORD-10570,TEE-RED-L,Red Logo Tee,tshirt,L,1,36.9
+ORD-10571,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10572,HOODIE-CRM-M,Cream Hoodie,hoodie,M,1,72.9
+ORD-10573,HOODIE-CRM-M,Cream Hoodie,hoodie,M,1,72.9
+ORD-10574,CAP-BLK-OS,Black Cap,accessory,OS,1,29.9
+ORD-10575,TEE-BLK-L,Black Essential Tee,tshirt,L,1,34.9
+ORD-10576,JORTS-BLU-M,Blue Denim Jorts,pants,M,1,59.9
+ORD-10577,JORTS-BLU-M,Blue Denim Jorts,pants,M,1,59.9
+ORD-10578,SWEAT-GRY-L,Grey Sweatpants,pants,L,2,64.9
+ORD-10579,BAG-GRY-OS,Grey Shoulder Bag,accessory,OS,1,39.9
+ORD-10580,HOODIE-CRM-M,Cream Hoodie,hoodie,M,1,72.9

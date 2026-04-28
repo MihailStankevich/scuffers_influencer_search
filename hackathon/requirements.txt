@@ -1,0 +1,8 @@
+pandas
+streamlit
+scikit-learn
+plotly
+openai
+fastapi
+uvicorn
+requests
