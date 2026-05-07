@@ -1,0 +1,39 @@
+{% extends "controltower/base.html" %}
+
+{% block title %}Creators Growth{% endblock %}
+
+{% block content %}
+<section class="hero compact">
+  <p class="eyebrow">Creators Growth</p>
+  <h1>Productos con menos pedidos</h1>
+  <p>Top 10 minimal. Si un producto necesita empuje visual, busca influencers en la página de matching.</p>
+</section>
+
+<section class="panel">
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
+        <tr>
+          <td>
+            <strong>{{ product.product_name }}</strong>
+            <small>{{ product.sample_sku }}</small>
+          </td>
+          <td>{{ product.quantity_ordered }}</td>
+          <td class="right">
+            <a class="button small" href="{% url 'controltower:match' %}?product={{ product.product_name|urlencode }}">Buscar influencers</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="3">No hay productos disponibles.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,5 +1,6 @@
 import json
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -204,7 +205,7 @@ def _candidate_order_pressure(data: Dict[str, pd.DataFrame], sku_table: pd.DataF
     return base
 
 
-def _fetch_shipping_status(order_id: str, candidate_id: str, timeout: float = 2.5) -> Dict[str, Any]:
+def _fetch_shipping_status(order_id: str, candidate_id: str, timeout: float = 1.2) -> Dict[str, Any]:
     if not HAS_REQUESTS:
         return {"order_id": order_id, "shipping_api_status": "error", "shipping_api_error": "requests_not_installed"}
     try:
@@ -248,11 +249,20 @@ def fetch_relevant_shipping_statuses(
         return pd.DataFrame(columns=columns)
 
     candidates = _candidate_order_pressure(data, sku_table).sort_values("pre_api_order_pressure", ascending=False)
+    candidate_rows = list(candidates.head(max(1, int(limit))).iterrows())
+    if not candidate_rows:
+        return pd.DataFrame(columns=columns)
+
     records = []
-    for _, row in candidates.head(max(1, int(limit))).iterrows():
-        payload = _fetch_shipping_status(str(row["order_id"]), candidate_id)
-        payload["pre_api_order_pressure"] = float(row["pre_api_order_pressure"])
-        records.append(payload)
+    with ThreadPoolExecutor(max_workers=min(8, len(candidate_rows))) as pool:
+        futures = {
+            pool.submit(_fetch_shipping_status, str(row["order_id"]), candidate_id): float(row["pre_api_order_pressure"])
+            for _, row in candidate_rows
+        }
+        for future in as_completed(futures):
+            payload = future.result()
+            payload["pre_api_order_pressure"] = futures[future]
+            records.append(payload)
 
     status_df = pd.DataFrame(records)
     for col in columns:
@@ -406,7 +416,7 @@ def build_customer_service_routes(
     base["sku_risk"] = base["sku_risk"].fillna(0)
     base["shipping_api_risk"] = pd.to_numeric(base["shipping_api_risk"], errors="coerce").fillna(0)
     base["delay_risk"] = pd.to_numeric(base["delay_risk"], errors="coerce").fillna(0)
-    base["requires_manual_review"] = base["requires_manual_review"].fillna(False).astype(bool)
+    base["requires_manual_review"] = base["requires_manual_review"].astype("boolean").fillna(False).astype(bool)
 
     base["service_route"] = "chatbot_first"
     high_value_mask = (base["is_vip"]) | (base["customer_lifetime_value"] >= 600) | (base["customer_orders_count"] >= 8)
@@ -478,7 +488,9 @@ def generate_actions(
         orders_enriched["shipping_api_status"] = "not_requested"
     orders_enriched["shipping_api_risk"] = pd.to_numeric(orders_enriched["shipping_api_risk"], errors="coerce").fillna(0)
     orders_enriched["delay_risk"] = pd.to_numeric(orders_enriched["delay_risk"], errors="coerce").fillna(0)
-    orders_enriched["requires_manual_review"] = orders_enriched["requires_manual_review"].fillna(False).astype(bool)
+    orders_enriched["requires_manual_review"] = (
+        orders_enriched["requires_manual_review"].astype("boolean").fillna(False).astype(bool)
+    )
 
     intensity_map = {"low": 1, "medium": 2, "high": 3, "very_high": 4}
     campaign_enriched = campaigns.merge(

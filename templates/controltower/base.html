@@ -1,0 +1,23 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Scuffers{% endblock %}</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="{% static 'controltower/styles.css' %}">
+</head>
+<body>
+  <nav class="nav">
+    <a class="brand" href="{% url 'controltower:dashboard' %}">Scuffers Control Tower</a>
+    <div class="nav-links">
+      <a href="{% url 'controltower:dashboard' %}">Ops</a>
+      <a href="{% url 'controltower:match' %}">Style Matching</a>
+    </div>
+  </nav>
+  <main class="shell">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

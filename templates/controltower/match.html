@@ -1,0 +1,64 @@
+{% extends "controltower/base.html" %}
+
+{% block title %}Style Matching{% endblock %}
+
+{% block content %}
+<section class="hero compact">
+  <p class="eyebrow">Creator Match AI</p>
+  <h1>Style Matching de influencers</h1>
+  <p>Sube una foto de producto y elige ranking visual puro o business side. Esta versión devuelve primero el Top 3 rápido.</p>
+</section>
+
+<section class="grid two">
+  <form class="panel form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>
+      Modo
+      <select name="mode">
+        <option value="business" {% if mode != "style" %}selected{% endif %}>Business side</option>
+        <option value="style" {% if mode == "style" %}selected{% endif %}>Style</option>
+      </select>
+    </label>
+    <label>
+      Imagen de producto
+      <input type="file" name="image" accept="image/*" required>
+    </label>
+    <label>
+      Ciudad opcional
+      <input name="city" value="{{ city }}" placeholder="Madrid">
+    </label>
+    <label>
+      País opcional
+      <input name="country" value="{{ country }}" placeholder="ES">
+    </label>
+    <label>
+      Keywords
+      <input name="keywords" value="{{ keywords }}">
+    </label>
+    <button type="submit">Find Influencers</button>
+  </form>
+
+  <section class="panel">
+    <h2>Resultado</h2>
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% elif result %}
+      <img class="product-preview" src="{{ result.input_image }}" alt="Uploaded product">
+      <div class="influencer-grid">
+        {% for influencer in result.top_influencers %}
+          <article class="influencer-card">
+            {% if influencer.image %}
+              <img src="{{ influencer.image }}" alt="{{ influencer.username }}">
+            {% endif %}
+            <strong>#{{ influencer.rank }} @{{ influencer.username }}</strong>
+            <small>style {{ influencer.style_match_percent }}% · final {{ influencer.final_match_percent }}%</small>
+            <small>{{ influencer.city|default:"-" }} · {{ influencer.country|default:"-" }}</small>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>Los resultados aparecerán aquí después de subir la imagen.</p>
+    {% endif %}
+  </section>
+</section>
+{% endblock %}

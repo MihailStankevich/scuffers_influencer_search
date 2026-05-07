@@ -1,0 +1,325 @@
+{% extends "controltower/base.html" %}
+
+{% block title %}Scuffers Ops{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">Launch operations</p>
+  <h1>Qué debe hacer ahora Scuffers</h1>
+  <p>Acciones priorizadas con inventario, soporte, campañas y señales operativas.</p>
+</section>
+
+<section class="metrics">
+  <article class="card">
+    <span>Top SKU riesgo</span>
+    <strong>{% if top_sku %}{{ top_sku.sku }}{% else %}N/A{% endif %}</strong>
+    {% if top_sku %}<small>risk {{ top_sku.sku_risk }} · stock {{ top_sku.inventory_available_units }}</small>{% endif %}
+  </article>
+  <article class="card">
+    <span>Ciudad crítica</span>
+    <strong>{% if top_city %}{{ top_city.shipping_city }}{% else %}N/A{% endif %}</strong>
+    {% if top_city %}<small>{{ top_city.total_tickets }} tickets</small>{% endif %}
+  </article>
+  <article class="card">
+    <span>Acciones activas</span>
+    <strong>{{ actions|length }}</strong>
+    <small>portfolio priorizado</small>
+  </article>
+</section>
+
+<nav class="tabs">
+  <a href="#acciones">Dashboard</a>
+  <a href="#clientes">Clientes</a>
+  <a href="#regiones">Regiones</a>
+  <a href="#productos">Productos</a>
+  <a href="#apirisk">API Risk</a>
+  <a href="#stock">Stock & Signals</a>
+</nav>
+
+<section class="panel tab-panel" id="acciones">
+  <div class="section-title">
+    <h2>Resumen operativo</h2>
+    <a href="{% url 'controltower:actions_api' %}">JSON</a>
+  </div>
+  <div class="summary-map-grid">
+    <section class="summary-card">
+      <h3>Mapa de incidencias</h3>
+      <div id="city-map-summary" class="city-map small"></div>
+    </section>
+    <section class="summary-card">
+      <h3>Top 3 ciudades con más incidencias</h3>
+      <div class="quick-list">
+        {% for row in city_rows %}
+          {% if forloop.counter <= 3 %}
+            <article class="quick-item city-item">
+              <div class="city-name">{{ row.shipping_city }}</div>
+              <div class="city-meta">{{ row.total_tickets }} incidencias · heat {{ row.operational_heat|floatformat:2 }} · urgencia {{ row.avg_city_urgency|floatformat:2 }}</div>
+              <div class="city-rank">#{{ forloop.counter }}</div>
+            </article>
+          {% endif %}
+        {% empty %}
+          <p>No hay incidencias regionales.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+
+  <section class="summary-card stacked">
+    <h3>Top 3 clientes atención preferente</h3>
+    <div class="quick-list">
+      {% for row in client_rows %}
+        {% if forloop.counter <= 3 %}
+          <article class="quick-item">
+            <div>
+              <strong>{{ row.customer_id }}</strong>
+              <small>{{ row.customer_segment }} · prioridad {{ row.service_priority }}</small>
+            </div>
+            <a class="button small" href="{{ row.contact_url }}" target="_blank" rel="noopener">{{ row.contact_label }}</a>
+          </article>
+        {% endif %}
+      {% empty %}
+        <p>No hay clientes priorizados.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="summary-card stacked">
+    <h3>Productos con menos pedidos</h3>
+    <div class="quick-list">
+      {% for product in low_order_products %}
+        {% if forloop.counter <= 4 %}
+          <article class="quick-item">
+            <div>
+              <strong>{{ product.product_name }}</strong>
+              <small>{{ product.orders }} pedidos · {{ product.quantity_ordered }} unidades</small>
+            </div>
+            <a class="button small" href="{% url 'controltower:match' %}">Buscar influencers</a>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <h3 class="subheading">Top 10 acciones recomendadas</h3>
+  <div class="action-list">
+    {% for action in actions %}
+      <article class="action">
+        <div class="rank">#{{ action.rank }}</div>
+        <div>
+          <h3>{{ action.title }}</h3>
+          <p>{{ action.reason }}</p>
+          <small>{{ action.owner }} · confidence {{ action.confidence }} · {{ action.action_type }}</small>
+        </div>
+      </article>
+    {% empty %}
+      <p>No hay acciones disponibles.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="panel tab-panel" id="clientes">
+  <h2>Clientes prioritarios</h2>
+  <div class="client-grid">
+    {% for row in client_rows %}
+      <article class="client-card">
+        <div>
+          <strong>{{ row.customer_id }}</strong>
+          <small>{{ row.customer_segment }} · {{ row.shipping_city }}</small>
+        </div>
+        <div class="client-meta">
+          <span>Ruta: {{ row.service_route }}</span>
+          <span>Prioridad: {{ row.service_priority }}</span>
+          <span>Canal: {{ row.channel }}</span>
+        </div>
+        <a class="button small" href="{{ row.contact_url }}" target="_blank" rel="noopener">{{ row.contact_label }}</a>
+      </article>
+    {% empty %}
+      <p>No hay clientes priorizados.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="panel tab-panel" id="regiones">
+  <h2>Regiones con problemas</h2>
+  <div id="city-map-regiones" class="city-map"></div>
+  <table>
+    <thead>
+      <tr>
+        <th>Ciudad</th>
+        <th>Tickets</th>
+        <th>Heat operativo</th>
+        <th>Urgencia media</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in city_rows %}
+        <tr>
+          <td>{{ row.shipping_city }}</td>
+          <td>{{ row.total_tickets }}</td>
+          <td>{{ row.operational_heat|floatformat:2 }}</td>
+          <td>{{ row.avg_city_urgency|floatformat:2 }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">No hay señales regionales.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="panel tab-panel" id="apirisk">
+  <h2>API Risk de campaña</h2>
+  <form method="post" class="risk-grid">
+    {% csrf_token %}
+    <label>Intensidad campaña
+      <select name="campaign_intensity">
+        <option value="low" {% if risk_input.campaign_intensity == "low" %}selected{% endif %}>low</option>
+        <option value="medium" {% if risk_input.campaign_intensity == "medium" %}selected{% endif %}>medium</option>
+        <option value="high" {% if risk_input.campaign_intensity == "high" %}selected{% endif %}>high</option>
+        <option value="very_high" {% if risk_input.campaign_intensity == "very_high" %}selected{% endif %}>very_high</option>
+      </select>
+    </label>
+    <label>Traffic growth esperado<input name="expected_traffic_growth" type="number" step="0.1" value="{{ risk_input.expected_traffic_growth }}"></label>
+    <label>Conversion rate esperado<input name="expected_conversion_rate" type="number" step="0.01" min="0" max="1" value="{{ risk_input.expected_conversion_rate }}"></label>
+    <label>Stock disponible<input name="available_units" type="number" step="1" min="0" value="{{ risk_input.available_units }}"></label>
+    <label>Stock reservado<input name="reserved_units" type="number" step="1" min="0" value="{{ risk_input.reserved_units }}"></label>
+    <label>Stock entrante<input name="incoming_units" type="number" step="1" min="0" value="{{ risk_input.incoming_units }}"></label>
+    <label>ETA entrante (horas)<input name="incoming_eta_hours" type="number" step="1" min="0" value="{{ risk_input.incoming_eta_hours }}"></label>
+    <label>% VIP/alto valor<input name="vip_share" type="number" step="0.01" min="0" max="1" value="{{ risk_input.vip_share }}"></label>
+    <label>% pedidos express<input name="express_share" type="number" step="0.01" min="0" max="1" value="{{ risk_input.express_share }}"></label>
+    <label>Tickets abiertos<input name="current_support_load" type="number" step="1" min="0" value="{{ risk_input.current_support_load }}"></label>
+    <div><button type="submit">Calcular riesgo</button></div>
+  </form>
+  <div class="risk-result">
+    <strong>{{ risk_result.risk_score }}/100 · {{ risk_result.recommendation|upper }}</strong>
+    <small>{{ risk_result.suggested_action }}</small>
+    <small>stock_stress {{ risk_result.stock_stress }} · demand_pressure {{ risk_result.demand_pressure }} · incoming_relief {{ risk_result.incoming_relief }}</small>
+    <small><code>POST /api/risk/launch</code> para integrarlo como API.</small>
+  </div>
+</section>
+
+<section class="panel tab-panel" id="productos">
+  <h2>Pedidos por producto</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>SKU ejemplo</th>
+        <th>Pedidos</th>
+        <th>Cantidad</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in low_order_products %}
+        <tr>
+          <td>{{ product.product_name }}</td>
+          <td>{{ product.sample_sku }}</td>
+          <td>{{ product.orders }}</td>
+          <td>{{ product.quantity_ordered }}</td>
+          <td class="right"><a class="button small" href="{% url 'controltower:match' %}">Buscar influencers</a></td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5">No hay productos disponibles.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="panel tab-panel" id="stock">
+  <h2>Stock & Signals</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>SKU</th>
+        <th>Producto</th>
+        <th>Stock</th>
+        <th>Reservado</th>
+        <th>SKU risk</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in sku_rows %}
+        <tr>
+          <td>{{ row.sku }}</td>
+          <td>{{ row.product_name }}</td>
+          <td>{{ row.inventory_available_units }}</td>
+          <td>{{ row.inventory_reserved_units }}</td>
+          <td>{{ row.sku_risk }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5">No hay datos de stock.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+{{ city_map_rows|json_script:"city-map-data" }}
+<script>
+  const scuffersMaps = {};
+  (function () {
+    const tabs = document.querySelectorAll(".tabs a");
+    const panels = document.querySelectorAll("section.panel");
+    function showPanel(id) {
+      panels.forEach((panel) => panel.classList.toggle("active-panel", panel.id === id));
+      tabs.forEach((tab) => tab.classList.toggle("active-tab", tab.getAttribute("href") === "#" + id));
+      if (id === "regiones" && scuffersMaps.regiones) {
+        setTimeout(() => scuffersMaps.regiones.invalidateSize(), 120);
+      }
+      if (id === "acciones" && scuffersMaps.summary) {
+        setTimeout(() => scuffersMaps.summary.invalidateSize(), 120);
+      }
+    }
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", (e) => {
+        e.preventDefault();
+        const id = tab.getAttribute("href").replace("#", "");
+        showPanel(id);
+        history.replaceState(null, "", "#" + id);
+      });
+    });
+    const initialId = (window.location.hash || "#acciones").replace("#", "");
+    showPanel(initialId);
+  })();
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  (function () {
+    const dataEl = document.getElementById("city-map-data");
+    const mapSummaryEl = document.getElementById("city-map-summary");
+    const mapRegionEl = document.getElementById("city-map-regiones");
+    if (!dataEl || !mapSummaryEl || !mapRegionEl) return;
+    const rows = JSON.parse(dataEl.textContent || "[]");
+
+    function initMap(elId, key) {
+      const map = L.map(elId).setView([40.2, -3.7], 5.1);
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+        maxZoom: 18,
+        attribution: "&copy; OpenStreetMap &copy; CARTO"
+      }).addTo(map);
+      scuffersMaps[key] = map;
+      if (!rows.length) return map;
+      rows.forEach((r) => {
+        const tickets = Number(r.total_tickets || 0);
+        const heat = Number(r.operational_heat || 0);
+        const radius = 6 + Math.min(28, tickets * 3.2);
+        L.circleMarker([r.lat, r.lon], {
+          radius,
+          color: "#ff9d9d",
+          weight: 1.2,
+          fillColor: "#ff2c2c",
+          fillOpacity: 0.72,
+        })
+          .bindTooltip(
+            `<b>${r.shipping_city}</b><br/>Incidencias: ${tickets}<br/>Heat: ${Number(heat).toFixed(2)}<br/>Urgencia: ${Number(r.avg_city_urgency || 0).toFixed(2)}`,
+            { direction: "top", sticky: true, opacity: 0.95 }
+          )
+          .addTo(map);
+      });
+      return map;
+    }
+
+    initMap("city-map-summary", "summary");
+    initMap("city-map-regiones", "regiones");
+  })();
+</script>
+{% endblock %}

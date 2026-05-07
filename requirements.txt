@@ -1,4 +1,7 @@
 instaloader>=4.10
+django>=5.0
+pandas>=2.2
+requests>=2.31
 numpy>=1.26
 Pillow>=10.0
 tqdm>=4.66
