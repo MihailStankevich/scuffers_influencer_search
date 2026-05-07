@@ -1,105 +1,98 @@
-# Scuffers Creator Match AI (Local Setup)
+# Scuffers Control Tower (Django)
 
-This project has two local apps:
+Proyecto principal en Django para operar un lanzamiento de alta demanda:
 
-- `app_server.py` -> FastAPI + Gradio (`/ui`) for product-to-creator style matching.
-- `hackathon/app.py` -> Streamlit Control Tower dashboard (includes button to open matching UI).
+- Dashboard operativo con resumen, mapa de incidencias, clientes prioritarios, productos y acciones top 10.
+- Style Matching de influencers en `/match/` (modo `Style` y `Business side`).
+- API interna para riesgo de campaña (`POST /api/risk/launch`).
 
-If Railway fails, this guide lets anyone run the demo on their own machine in a few minutes.
+## 1) Requisitos
 
-## 1) Requirements
-
-- Python 3.10+ (recommended 3.10/3.11)
+- Python 3.10+ (recomendado 3.10/3.11)
 - Windows / macOS / Linux
-- Internet on first run (OpenCLIP weights may download)
+- Internet en la primera ejecución (OpenCLIP puede descargar pesos)
 
-## 2) Install
+## 2) Instalación
 
-From repo root:
+Desde la raíz del repo:
 
 ```bash
 python -m venv .venv
 ```
 
-Activate environment:
+Activar entorno:
 
-- Windows (PowerShell):
-
+- Windows (PowerShell)
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-- macOS/Linux:
-
+- macOS/Linux
 ```bash
 source .venv/bin/activate
 ```
 
-Install dependencies:
+Instalar dependencias:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 3) Run the apps (two terminals)
-
-Open two terminals at repo root with the same virtual environment active.
-
-### Terminal A: Matching API + UI
+Aplicar migraciones Django:
 
 ```bash
-python -m uvicorn app_server:app --host 0.0.0.0 --port 8000 --reload
+python manage.py migrate
 ```
 
-Open:
-
-- Matching UI: [http://127.0.0.1:8000/ui?v=mini](http://127.0.0.1:8000/ui?v=mini)
-- Health check: [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health)
-
-### Terminal B: Dashboard
+## 3) Ejecutar app (un solo servidor)
 
 ```bash
-streamlit run hackathon/app.py --server.port 8501
+python manage.py runserver
 ```
 
-Open:
+Abrir:
 
-- Dashboard: [http://127.0.0.1:8501](http://127.0.0.1:8501)
+- Home / Dashboard: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+- Style Matching: [http://127.0.0.1:8000/match/](http://127.0.0.1:8000/match/)
 
-## 4) Demo flow
+## 4) Endpoints API
 
-1. Open Dashboard.
-2. Go to `Creators Growth`.
-3. Click `Ver influencers` (opens matching UI).
-4. In matching UI:
-   - Upload product image
-   - Choose country (optional)
-   - Toggle `Business` or `Style only`
-   - Click `Find Influencers`
-5. Review:
-   - Influencer clusters plot
-   - Similarity bar chart
-   - Top 3 creators with image + username
+- `GET /api/actions/` -> acciones priorizadas (top 10)
+- `POST /api/risk/launch` -> cálculo de riesgo de campaña
 
-## 5) Known behavior
-
-- First inference can be slow on CPU (ViT-H model warm-up/download).
-- Next runs in same process are faster (model cache in memory).
-
-## 6) Troubleshooting
-
-- **Browser shows old UI:** open `http://127.0.0.1:8000/ui?v=mini` and hard refresh (`Ctrl+F5`).
-- **Port already in use:** change ports (`8001`, `8502`) or stop existing process.
-- **Do not open `http://0.0.0.0:8000` in browser:** use `127.0.0.1` or `localhost`.
-- **No matches / errors:** verify local data files exist under `data/influencers/`.
-
-## 7) Optional: run only matching UI
-
-If you only need the AI matcher (without dashboard):
+Ejemplo `POST /api/risk/launch`:
 
 ```bash
-python -m uvicorn app_server:app --host 0.0.0.0 --port 8000 --reload
+curl -X POST http://127.0.0.1:8000/api/risk/launch \
+  -H "Content-Type: application/json" \
+  -d '{
+    "campaign_intensity":"high",
+    "expected_traffic_growth":2.8,
+    "expected_conversion_rate":0.06,
+    "available_units":8,
+    "reserved_units":18,
+    "incoming_units":0,
+    "incoming_eta_hours":48,
+    "vip_share":0.18,
+    "express_share":0.35,
+    "current_support_load":12
+  }'
 ```
 
-Then open [http://127.0.0.1:8000/ui?v=mini](http://127.0.0.1:8000/ui?v=mini).
+## 5) Flujo demo recomendado
+
+1. Abrir `/` y revisar el resumen operativo.
+2. Usar pestañas para profundizar en clientes, regiones, productos y stock.
+3. En `API Risk`, probar escenarios de campaña.
+4. En productos/clientes, ir a `/match/` y lanzar búsqueda de influencers con imagen.
+
+## 6) Notas
+
+- La primera inferencia de matching puede tardar más por calentamiento del modelo.
+- Ejecuciones posteriores en el mismo proceso suelen ser más rápidas.
+- Si el navegador muestra estilos viejos, usar hard refresh (`Ctrl+F5`).
+
+## 7) Legacy
+
+Siguen existiendo scripts/apps legacy (`app_server.py`, `hackathon/app.py`) para referencia, pero el flujo principal actual es Django.
 
